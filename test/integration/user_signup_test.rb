@@ -4,11 +4,14 @@ class UserSignupTest < ActionDispatch::IntegrationTest
   test "invalid signup information"do
     get signup_path
     assert_no_difference 'User.count' do
-      post user_path, user:{ name:"",
+      post users_path, user:{ name:"sadf",
                              email:"user@invalid.de",
                              password:"foo",
-                             password_confirmation:"bar"}
-    end    
-    assert_template 'user/new'    
+                             password_confirmation:"foo"}
+    end     
+    assert_template 'users/new'    
+    assert_select 'div#<CSS id for error explanation>'
+    assert_select 'div.<CSS class for field with error>'
+
   end   
 end
